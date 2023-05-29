@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html lang="es">
+    <head>
+        <title>CIUDADES</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="../Recursos/js/jquery.js" ></script>
+        <script type="text/javascript" src="../Recursos/js/jquery-ui.min.js" ></script>
+        <script type="text/javascript" src="../jsOperacionales/ciudadesJS.js" ></script>
+        <script type="text/javascript" src="../jsOperacionales/buscador.js " ></script>
+        <script type="text/javascript" src="../Recursos/js/bootstrap.min.js " ></script>
+        <link rel="stylesheet" href="../Recursos/css/bootstrap.min.css">
+        <!--<link rel="stylesheet" href="../Recursos/css/fondo.css">-->
+    </head>
+    <body>
+
+        <div class="jumbotron container"><!-- DIV general-->
+            <form class="navbar-form navbar-left" >          
+                <!--Grupo de campos de textos-->
+                <div class="input-group">
+                    <p>MANTENIMIENTO CIUDADES</p>
+                    <!--<p class="navbar-text">Formulario de Ciudades</p>-->
+                    <input type="text" class="form-control" id="txtId" onkeypress="campo_ciudadC(event);" placeholder="Identificador de ciudad(Automatico)"/>
+                    <input type="text" class="form-control" id="txtCiudad" onkeypress="campo_IDpaisC(event);" placeholder="Introduce una ciudad"/>                  
+                    <!-- Combo Pais -->
+
+                    <!--<select id="combo_pais" class="btn btn-primary dropdown-toggle" ></select><br><br>-->
+                    <!-------------------------------->
+                    <!--Aqui se implementan los botones -->
+                    <div class="btn-group">
+                        <input type="button" value="Nuevo" onclick="limpiar_habilitar_CamposC();" id="btNuevo" class="btn btn-primary"/>
+                        <input type="button" value="Modificar" onclick="modificarC();" id="btModificar" class="btn btn-primary"/>
+                        <input type="button" value="Eliminar" onclick="eliminarC();" id="btEliminar" class="btn btn-primary"/>
+                        <input type="button" value="Guardar" id="btGuardar" onkeypress="dialogo_confirmacionC();" onclick="dialogo_confirmacionC();" class="btn btn-primary" />
+                        <input type="button" value="Cancelar" id="btCancelar" onclick="limpiar_deshabilitar_CamposC();" class="btn btn-primary"/>
+                        <!--<input type="button" value="Buscar" id="btBuscar" onclick="listarSegunFiltroC();" class="btn btn-primary"/>-->
+                        <input type="button" value="Refresh" id="btLimpiar" onclick="javascript:location.reload()" class="btn btn-primary"/>
+                    </div>
+                </div>
+            </form>
+
+            <!--Aqui se implementan los combos -->
+            <!----
+            <form class="navbar-form navbar-right">                
+<div class="input-group">
+                    <select id="combo_ciudad" class="btn btn-primary dropdown-toggle"  ></select><br><br>
+                </div>
+</form>-->
+            <!--Aqui se implementa la tabla de ciudad -->
+            <table border="0" id="tabla_ciudad" class="table table-bordered table-hover table-responsive table-condensed" onclick="capturarFilaC('tabla_ciudad')">
+                <thead><!--Aqui van los nombres de las columnas-->
+                    <tr>
+                        <th>Id</th>
+                        <th>Ciudad</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla_ciudad_body" class="buscar">   
+                </tbody>
+            </table>
+            <!-------------------------------->
+
+            <!-- Buscador -->
+            <h3>Buscador</h3>
+            <div class="input-group">
+                <!--<input type="text" class="form-control" placeholder="Buscar por palabra o id" id="txtBuscador" onkeyup="evento_KEYRELEASE()"/><br><br>-->
+                <span class="input-group-addon">Buscar</span>
+                <input class="form-control" type="text" id="filtrar" placeholder="Ingrese Descripcion a Buscar"/>
+
+            </div>
+            <!-------------------------------->
+
+            <!--------------alerta-------------->
+            <div id="miAlerta" class="alert alert-info collapse">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong id="titulo"></strong>
+                <p id="texto"> </p>
+            </div>
+            <!-------------------------------->
+
+            <!--------------Ventana del buscador de paises--------------> 
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Buscador de Países</h4>
+                        </div>
+                        <div class="modal-body"><!-- Cuerpo del modal -->
+
+                            <!-- Caja de texto del Buscador -->
+                            <div class="input-group">
+                                <span class="input-group-addon">Buscar</span>
+                                <input class="form-control" type="text" id="filtrar_pais" placeholder="Ingrese Pais a Buscar"/>
+
+                            </div>
+                            <!-------------------------------->
+
+                            <!--Aqui se implementa la tabla de País -->
+                            <table border="0" id="tabla_pais" class="table table-bordered table-hover table-responsive table-condensed">
+                                <thead><!--Aqui van los nombres de las columnas-->
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Pais</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla_pais_body" class="buscar_pais">   
+                                </tbody>
+                            </table>
+                            <!-------------------------------->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-------------------------------->
+
+        </div>
+
+
+
+    </body>
+</html>

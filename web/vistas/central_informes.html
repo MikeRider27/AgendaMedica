@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Central de Informes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="../Recursos/js/jquery.js"></script>
+        <script type="text/javascript" src="../Recursos/js/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="../Recursos/js/bootstrap.min.js " ></script>
+        <link rel="stylesheet" href="../Recursos/css/bootstrap.min.css">
+        <script type="text/javascript">
+            function ver_listado(id) {
+                $.get('/AgendaMedica_V00.2/ReportesSRV', 'bandera=' + id + ' ', function () {
+
+                });
+            }
+        </script>
+    </head>
+    <body>
+        <div class="jumbotron container">
+            <form class="navbar-form navbar-left" >
+            <div>
+                <p class="navbar-text">Central de Informes</p>
+            </div>
+            <!--Aqui se implementan los botones -->
+            <form class="navbar-form navbar-right">
+                <div class="btn-group">
+                    <input type="button" value="Ciudades" onclick="ver_listado(1);" id="btNuevo" class="btn btn-primary"/>
+                    <input type="button" value="Paises" onclick="ver_listado(2);" id="btNuevo" class="btn btn-primary"/>
+                    <input type="button" value="Clientes" onclick="ver_listado(3);" id="btNuevo" class="btn btn-primary"/>
+                </div>
+            </form>
+            <!-------------------------------->
+        </div>
+    </body>
+</html>

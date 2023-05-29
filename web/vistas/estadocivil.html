@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<html lang="es">
+    <head>
+        <title>ESTADO CIVIL</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="../Recursos/js/jquery.js" ></script>
+        <script type="text/javascript" src="../Recursos/js/jquery-ui.min.js" ></script>
+        <script type="text/javascript" src="../jsOperacionales/estadocivilJS.js" ></script>
+        <script type="text/javascript" src="../jsOperacionales/buscador_estadocivil.js" ></script>
+        <script type="text/javascript" src="../Recursos/js/bootstrap.min.js " ></script>
+        <link rel="stylesheet" href="../Recursos/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="jumbotron container">
+            <div>
+                <p >Mantenimiento Estado Civil</p>
+            </div>
+            <form class="navbar-form navbar-left" >
+                <!--Grupo de campos de textos-->
+                <div class="input-group">
+                    <input type="text" id="txtId" onkeypress="campo_cargo(event);" class="form-control" placeholder="Identificador (Automatico)"/>
+                    <input type="text" id="txtCargo" onkeypress="boton_guardar(event);" class="form-control" placeholder="Introduce una palabra"/>
+                    <!--Grupo de  botones-->
+                    <div class="btn-group">
+                        <input type="button" value="Nuevo" onclick="limpiar_habilitar_Campos_Campos_Cargos();" id="btNuevo" class="btn btn-primary"/>
+                        <input type="button" value="Modificar" onclick="modificar();" id="btModificar" class="btn btn-primary" />
+                        <input type="button" value="Eliminar" onclick="eliminar();" id="btEliminar" class="btn btn-primary"/>
+                        <input type="button" value="Guardar" id="btGuardar" onkeypress="dialogo_confirmacion();" onclick="dialogo_confirmacion();" class="btn btn-primary"/>
+                        <input type="button" value="Cancelar" id="btCancelar" onclick="limpiar_deshabilitar_Campos_Cargos();" class="btn btn-primary"/>
+                        
+                    </div>
+                </div>
+            </form>
+            <!--Aqui se implementa la tabla de ciudad -->
+            <table border="0" id="tabla_cargos" class="table table-bordered table-hover table-responsive table-condensed" onclick="capturarFilaCargos('tabla_cargos');">
+                <thead><!--Aqui van los nombres de las columnas-->
+                    <tr>
+                        <th>Id</th>
+                        <th>Descripcion</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla_cargos_body" class="buscar">   
+                </tbody>
+            </table>
+            <!-------------------------------->
+             <!-- Buscador -->
+            <h3>Buscador</h3>
+            <div class="input-group">
+                <!--<input type="text" class="form-control" placeholder="Buscar por palabra o id" id="txtBuscador" onkeyup="evento_KEYRELEASE()"/><br><br>-->
+                <span class="input-group-addon">Buscar</span>
+                <input class="form-control" type="text" id="filtrar_cargo" placeholder="Ingrese a Buscar"/>
+
+            </div>
+            <!-------------------------------->
+            <!--------------alerta-------------->
+            <div id="miAlerta" class="alert alert-info collapse">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong id="titulo"></strong>
+                <p id="texto"> </p>
+            </div>
+            <!-------------------------------->
+        </div> 
+    </body>
+</html>

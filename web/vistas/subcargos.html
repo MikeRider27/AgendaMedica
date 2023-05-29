@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>SUBCARGOS</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="../Recursos/js/jquery.js" ></script>
+        <script type="text/javascript" src="../Recursos/js/jquery-ui.min.js" ></script>
+        <script type="text/javascript" src="../jsOperacionales/subcargosJS.js" ></script>
+        <script type="text/javascript" src="../jsOperacionales/buscador_subcargos.js" ></script>
+        <script type="text/javascript" src="../Recursos/js/bootstrap.min.js " ></script>
+        <link rel="stylesheet" href="../Recursos/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="jumbotron container">            
+            <form class="navbar-form navbar-left" >
+                <!--Grupo de campos de textos-->
+                <div class="input-group">
+                    <p class="navbar-text">Mantenimiento Subcargos</p>
+                    <input type="text" class="form-control" id="txtId" onkeypress="" placeholder="Identificador de subcargos(Automatico)"/><br><br>
+                    <input type="text" class="form-control" id="txtSubcargo" onkeypress="" placeholder="Ingrese un subcargo"/><br><br>                    
+                    <!-- Combo  -->
+                    <!--<select id="combo_cargo" class="btn btn-primary dropdown-toggle" ></select><br><br>-->
+                    <!-------------------------------->   
+                    <div class="btn-group">
+                        <input type="button" value="Nuevo" onclick="limpiar_habilitar_CamposS();" id="btNuevo" class="btn btn-primary"/>
+                        <input type="button" value="Modificar" onclick="modificarS();" id="btModificar" class="btn btn-primary"/>
+                        <input type="button" value="Eliminar" onclick="eliminarS();" id="btEliminar" class="btn btn-primary"/>
+                        <input type="button" value="Guardar" id="btGuardar" onkeypress="dialogo_confirmacionS();" onclick="dialogo_confirmacionS();" class="btn btn-primary"/>
+                        <input type="button" value="Cancelar" id="btCancelar" onclick="limpiar_deshabilitar_CamposS();" class="btn btn-primary"/>
+                        <input type="button" value="Buscar" id="btBuscar" onclick="listarSegunFiltroS();" class="btn btn-primary"/>
+                    </div>
+                </div>
+            </form>
+            <!--Aqui se implementa la tabla de subcargos -->
+            <table border="0" id="tabla_subcargos" class="table table-bordered table-hover table-responsive table-condensed" onclick="capturarFila('tabla_subcargos');">
+                <thead><!--Aqui van los nombres de las columnas-->
+                    <tr>
+                        <th>Id</th>
+                        <th>Subcargo</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla_subcargos_body" class="buscar_subcargos">   
+                </tbody>
+            </table>
+            <!-------------------------------->
+
+            <!-- Buscador -->
+            <h3>Buscador</h3>
+            <div class="input-group">
+                <!--<input type="text" class="form-control" placeholder="Buscar por palabra o id" id="txtBuscador" onkeyup="evento_KEYRELEASE()"/><br><br>-->
+                <span class="input-group-addon">Buscar</span>
+                <input class="form-control" type="text" id="filtrar_subcargos" placeholder="Ingrese Descripcion a Buscar"/>
+
+            </div>
+            <!-------------------------------->
+            <!--------------alerta-------------->
+            <div id="miAlerta" class="alert alert-info collapse">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong id="titulo"></strong>
+                <p id="texto"> </p>
+            </div>
+            <!-------------------------------->
+
+        </div>
+    </body>
+</html>

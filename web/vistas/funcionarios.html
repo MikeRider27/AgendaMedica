@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<html lang="es">
+    <head>
+        <title>Funcionarios</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="../Recursos/js/jquery.js" ></script>
+        <script type="text/javascript" src="../Recursos/js/jquery-ui.min.js" ></script>
+        <script type="text/javascript" src="../jsOperacionales/funcionarioJS.js" ></script>
+        <script type="text/javascript" src="../jsOperacionales/buscador_funcionario.js" ></script>
+        <script type="text/javascript" src="../Recursos/js/bootstrap.min.js " ></script>
+        <script type="text/javascript" src="../Recursos/js/bootstrap-datepicker.js " ></script>
+        <link rel="stylesheet" href="../Recursos/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../Recursos/css/bootstrap-datepicker3.css">
+    </head>
+    <body>
+        <div class="jumbotron container">
+            <div>
+                <p >Mantenimiento Funcionarios</p>
+            </div>
+            <form class="form-inline" >
+                <!--Grupo de campos de textos-->
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">id</span>
+                    <input type="text" id="txtId" onkeypress="" class="form-control" placeholder="(Automatico)"/>
+                </div>
+            </form>
+            <br>
+            <form class="form-inline" >
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">persona</span>
+                    <input type="text" id="txtid_persona" 
+                           onkeypress="if (event.keyCode === 13) {
+                                       //validarCampos(event);
+                                       recuperarPersona_enter(event);
+                                   }" class="form-control" placeholder="(Automatico)"
+                           onkeydown="if (event.keyCode === 113) {
+                                       cargarBuscadorF('persona');
+                                   }"/>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="txtNombre" onkeypress="" class="form-control" placeholder="nombre"/>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" id="txtci" onkeypress="" class="form-control" placeholder="ci"/>
+                </div>
+            </form>
+            <br>
+            <form class="form-inline" >
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">especialidad</span>
+                    <input type="text" id="txtid_espe" 
+                           onkeypress="
+                                   if (event.keyCode === 13) {
+                                       recuperarEspecialidad_enter(event);
+                                   }" class="form-control" placeholder="(Automatico)"
+                           onkeydown="if (event.keyCode === 113) {
+                                       cargarBuscadorF('especial');
+                                   }" 
+                           onkeyup="resolverEspecialidad();"
+                           onclick=""/>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="txtesp" onkeypress="" class="form-control" placeholder="Especialidades"/>
+                </div>
+            </form>
+            <br>
+            <form class="form-inline" >
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">subcargos</span>
+                    <input type="text" class="form-control"  id="txtid_subc" placeholder="(Automatico)"
+                           onkeydown="if (event.keyCode === 113) {
+                                       cargarBuscadorF('subcargos');
+                                   }"
+                           onkeypress="if (event.keyCode === 13) {
+                                       recuperarSubcargo_enter(event);
+                                   }" onkeyup="resolverSubcargo();">
+                </div>
+                <div class="input-group">
+                    <input type="text" class="form-control"  id="txtsub" placeholder="Subcargos">
+                </div>
+            </form>
+            <br>
+            <form class="form-inline" >
+                <div class="input-group">
+                    <!-- Combo  -->
+                    <select id="combo_tcargo" class="btn btn-primary " ></select><br><br>
+                </div>
+                <!-------------------------------->
+            </form>
+            <!--Grupo de  botones-->
+            <div class="btn-group">
+                <input type="button" value="Nuevo" onclick="limpiar_habilitar_Campos_Campos_Cargos();" id="btNuevo" class="btn btn-primary"/>
+                <input type="button" value="Modificar" onclick="modificar();" id="btModificar" class="btn btn-primary" />
+                <input type="button" value="Eliminar" onclick="eliminar();" id="btEliminar" class="btn btn-primary"/>
+                <input type="button" value="Guardar" id="btGuardar" onkeypress="dialogo_confirmacion();" onclick="dialogo_confirmacion();" class="btn btn-primary"/>
+                <input type="button" value="Cancelar" id="btCancelar" onclick="limpiar_deshabilitar_Campos_Cargos();" class="btn btn-primary"/>
+            </div>
+            <br><br>
+            <!--Aqui se implementa la tabla de ciudad -->
+            <div >
+                <table border="0" id="tabla_cargos" class="table table-bordered table-hover table-responsive table-condensed" onclick="capturarFilaCargos('tabla_cargos');">
+                    <thead><!--Aqui van los nombres de las columnas-->
+                        <tr>
+                            <th>Id</th>
+
+                            <th>Nombre</th>
+                            <th>CI</th>
+                            <th>Tipo</th>
+                            <th>Subcargo</th>
+                            <th>Especialidad</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla_cargos_body" class="buscar">   
+                    </tbody>
+                </table>
+                <!-------------------------------->
+            </div>
+            <!--------------Ventana del buscador --------------> 
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Buscador</h4>
+                        </div>
+                        <div class="modal-body"><!-- Cuerpo del modal -->
+
+                            <!-- Caja de texto del Buscador -->
+                            <div class="input-group">
+                                <span class="input-group-addon">Buscar</span>
+                                <input class="form-control" type="text" id="filtrar" placeholder="Ingrese su Búsqueda"/>
+
+                            </div>
+                            <!-------------------------------->
+
+                            <!--Aqui se implementa la tabla de País -->
+                            <table border="0" id="tabla_buscador" class="table table-bordered table-hover table-responsive table-condensed" onclick="capturarFila('tabla_buscador');"/>
+                            <thead><!--Aqui van los nombres de las columnas-->
+                                <tr>
+                                    <th>Id</th>
+                                    <th>DESCRIPCION</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla_buscador_body" class="abuscar">   
+                            </tbody>
+                            </table>
+                            <!-------------------------------->
+                        </div>
+                        <div class="modal-footer">
+                            DOBLE CLICK SOBRE LA FILA PARA RECUPERAR EL VALOR    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Buscador -->
+            <h3>Buscador</h3>
+            <div class="input-group">
+                <!--<input type="text" class="form-control" placeholder="Buscar por palabra o id" id="txtBuscador" onkeyup="evento_KEYRELEASE()"/><br><br>-->
+                <span class="input-group-addon">Buscar</span>
+                <input class="form-control" type="text" id="filtrar_cargo" placeholder="Ingrese a Buscar"/>
+
+            </div>
+            <!-------------------------------->
+            <!--------------alerta-------------->
+            <div id="miAlerta" class="alert alert-info collapse">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong id="titulo"></strong>
+                <p id="texto"> </p>
+            </div>
+            <!-------------------------------->
+        </div> 
+    </body>
+</html>

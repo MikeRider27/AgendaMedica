@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>Cabecera Detalle</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../Recursos/css/bootstrap.min.css">
+        <script type="text/javascript" src="../Recursos/js/jquery.js"></script>
+        <script type="text/javascript" src="../Recursos/js/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="../Recursos/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../jsOperacionales/ventasJS.js"></script>
+        <script type="text/javascript" src="../jsOperacionales/buscador_ventas.js"></script>
+        <script type="text/javascript" src="../jsEventos/VentasEVT.js"></script>
+
+    </head>
+    <body>
+    <center>
+        <div class="jumbotron container">
+
+            <form class="form-inline">
+                <br> 
+                <h3>Datos de la venta</h3>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Codigo</span> 
+                    <input type="text" id="id" placeholder="Serial" size="3" class="form-control"
+                           onkeydown="if (event.keyCode === 113) {
+                                       cargarBuscador('ventas');
+                                   }" />
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Cod Usuario</span> 
+                    <input type="text" id="id_usuario" size="3" onkeydown="
+
+                            if (event.keyCode === 113) {
+                                cargarBuscador('usuarios');
+                            }
+
+                            if (event.keyCode === 13) {
+
+                            }" onkeypress="recuperarUsuario_enter(event);" class="form-control"/>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Usuario</span> 
+                    <input type="text" id="usuario" size="20" class="form-control"/> <br>  
+                </div>
+            </form>
+            <br>
+            <form class="form-inline">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Fecha</span> 
+                    <input type="text" id="fecha" size="10" class="form-control"/> 
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Cod Cliente</span> 
+                    <input type="text" id="id_cliente" size="3"
+                           onkeydown="
+
+                                   if (event.keyCode === 113) {
+                                       cargarBuscador('clientes');
+                                   }
+
+                                   if (event.keyCode === 13) {
+
+                                   }" onkeypress="recuperarCliente_enter(event);" class="form-control"/>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">cliente</span> 
+                    <input type="text" class="form-control" id="cliente" size="30" />
+                </div>
+            </form>
+            <br>
+            <form class="form-inline">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Observacion</span> 
+                    <input type="text" class="form-control" id="osbv" size="60" />
+                </div>
+            </form>
+
+
+
+
+            <br>
+
+            <br>
+
+            <form class="form-inline">
+                <div class="">
+                    <h3>Servicios</h3>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Codigo</span> 
+                    <input class="form-control" type="text" id="codigoInsumo" size="1"
+                           onkeydown="
+                                   if (event.keyCode === 113) {
+                                       cargarBuscador('servicio');
+                                   }
+
+                                   if (event.keyCode === 13) {
+
+                                   }" onkeypress="recuperarProducto_enter(event)"/>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Descripcion</span>
+                    <input class="form-control" type="text" id="descripcion"
+                           size="25" /> 
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Precio</span>
+                    <input class="form-control" type="text" id="precio"  size="9" /> 
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Cantidad</span>
+                    <input class="form-control" type="text" id="cantidad" size="3"
+                           onkeydown="
+                                   if (event.keyCode === 13) {
+                                       //   if (validarCantidad()) {
+                                       //       if (verificarProductoNoRepetido()) {
+                                       agregarFila();
+                                       limpiarCamposInsumos();
+                                       //   }
+                                       // }
+                                   }
+                           " />
+                </div>
+            </form>
+            <br>
+            <br>
+            Detalle de Productos
+            <br>
+            <table border="0" id="tablaDetalleInsumos" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 10%;">Codigo</th>
+                        <th style="width: 55%;">Descripcion</th>
+                        <th style="width: 10%;">Cantidad</th>
+                        <th style="width: 20%;">Total</th>
+                        <th colspan="3" style="width: 25px;"> <img src="../Recursos/img/update.png" width="20" height="20"/></th>
+
+                    </tr>
+                </thead>
+                <tbody id="tabla_detalle"></tbody>
+            </table>
+
+
+            <br> 
+            <!-- Botones del formulario -->
+            <button type="button" style="width: 150px"
+                    onclick="BotonNuevo();" class="btn btn-primary" id="btnuevo">Nuevo Pedido</button>
+
+            &nbsp;&nbsp;
+            <button type="button" style="width: 150px"
+                    onclick="AgregarPedidoV();" class="btn btn-primary" id="btgrabar">Grabar</button>
+            &nbsp;&nbsp;
+            <button type="button" style="width: 150px"
+                    onclick="BotonBuscar();" class="btn btn-primary" id="btbuscar">Buscar</button>&nbsp;&nbsp;
+            <button type="button" style="width: 150px"
+                    onclick="AnularPedido();" class="btn btn-primary" id="btanular">Anular</button>&nbsp;&nbsp;
+            <button type="button" style="width: 150px"
+                    onclick="BotonCancelar();" class="btn btn-primary" id="btcancelar">Cancelar</button>
+
+
+            <!--------------Ventana del buscador --------------> 
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Buscador</h4>
+                        </div>
+                        <div class="modal-body"><!-- Cuerpo del modal -->
+
+                            <!-- Caja de texto del Buscador -->
+                            <div class="input-group">
+                                <span class="input-group-addon">Buscar</span>
+                                <input class="form-control" type="text" id="filtrar" placeholder="Ingrese su Búsqueda"/>
+
+                            </div>
+                            <!-------------------------------->
+
+                            <!--Aqui se implementa la tabla de País -->
+                            <table border="0" id="tabla_buscador" class="table table-bordered table-hover table-responsive table-condensed" onclick="capturarFila('tabla_buscador');"/>
+                            <thead><!--Aqui van los nombres de las columnas-->
+                                <tr>
+                                    <th>Id</th>
+                                    <th>DESCRIPCION</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla_buscador_body" class="abuscar">   
+                            </tbody>
+                            </table>
+                            <!-------------------------------->
+                        </div>
+                        <div class="modal-footer">
+                            DOBLE CLICK SOBRE LA FILA PARA RECUPERAR EL VALOR    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center>
+</body>
+</html>
