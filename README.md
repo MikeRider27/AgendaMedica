@@ -19,6 +19,21 @@ docker compose up -d --build
 Abrir `http://localhost:8080` (o el `WEB_PORT` definido) e ingresar con `ADMIN_USERNAME` / `ADMIN_PASSWORD`.
 El administrador se crea sólo la primera vez, cuando la tabla de usuarios está vacía.
 
+El nombre que aparece en el menú, el login y el pie de página se define con `INSTITUCION` en `.env`
+(requiere `docker compose up -d --build frontend` para aplicarse).
+
+### Datos de demostración
+
+Para probar con datos ficticios (6 médicos con horarios, 60 pacientes, ~440 turnos entre dos semanas atrás y dos
+adelante, historia clínica de los atendidos), sobre una base sin médicos ni pacientes:
+
+```bash
+docker compose exec -T db psql -U agenda -d agenda_medica -v ON_ERROR_STOP=1 < scripts/datos-demo.sql
+```
+
+Crea los usuarios `recepcion`, `agomez`, `rvillalba`, `cmartinez`, `jbenitez`, `portiz` y `dacosta`
+(contraseña `Demo2026!`). Para volver a una base vacía: `docker compose down -v && docker compose up -d`.
+
 ### Red
 
 ```

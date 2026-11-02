@@ -4,6 +4,8 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
+ARG VITE_INSTITUCION
+ENV VITE_INSTITUCION=$VITE_INSTITUCION
 RUN npm run build
 
 # ---- runtime ----

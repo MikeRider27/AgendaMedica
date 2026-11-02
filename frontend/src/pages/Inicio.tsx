@@ -4,7 +4,7 @@ import { useAuth } from '../auth';
 import AccionesTurno from '../components/AccionesTurno';
 import { Alerta, EstadoBadge, useDatos } from '../components/comunes';
 import type { EstadoTurno, Turno } from '../types';
-import { diaSemanaLargo, ESTADOS, hora } from '../util';
+import { ESTADOS, hora } from '../util';
 
 interface Tablero {
   fecha: string;
@@ -20,8 +20,8 @@ export default function Inicio() {
   return (
     <section>
       <div className="titulo-pagina">
-        <h1>Hola, {usuario?.nombreCompleto}</h1>
-        {datos && <span className="tenue">{diaSemanaLargo(datos.fecha)}</span>}
+        <h1>Panel del día</h1>
+        <span className="tenue">Bienvenido/a, {usuario?.nombreCompleto}</span>
       </div>
       <Alerta error={error} />
       {datos && (

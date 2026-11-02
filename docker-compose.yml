@@ -40,7 +40,10 @@ services:
     networks: [interna]
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        VITE_INSTITUCION: ${INSTITUCION:-Centro Médico}
     restart: unless-stopped
     depends_on:
       backend:

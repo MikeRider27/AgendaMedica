@@ -2,11 +2,21 @@ import { useState } from 'react';
 import { api } from '../api';
 import { useAuth } from '../auth';
 import type { EstadoTurno, Turno } from '../types';
-import { ESTADOS, SIGUIENTES } from '../util';
+import { SIGUIENTES } from '../util';
 import ConsultaModal from './ConsultaModal';
 import { Alerta, Modal, useEnvio } from './comunes';
 
 const ESTADOS_MEDICO: EstadoTurno[] = ['CONFIRMADO', 'EN_ATENCION', 'ATENDIDO', 'AUSENTE'];
+
+/** Texto del botón que lleva el turno a cada estado. */
+const ACCION: Record<EstadoTurno, string> = {
+  PENDIENTE: 'Volver a pendiente',
+  CONFIRMADO: 'Confirmar',
+  EN_ATENCION: 'Iniciar atención',
+  ATENDIDO: 'Marcar atendido',
+  CANCELADO: 'Cancelar',
+  AUSENTE: 'Ausente',
+};
 
 /** Botonera de cambio de estado + registro de consulta para un turno. */
 export default function AccionesTurno({ turno, onCambio }: { turno: Turno; onCambio: () => void }) {
@@ -41,7 +51,7 @@ export default function AccionesTurno({ turno, onCambio }: { turno: Turno; onCam
           disabled={enviando}
           onClick={() => (e === 'CANCELADO' ? setCancelando(true) : cambiar(e))}
         >
-          {ESTADOS[e]}
+          {ACCION[e]}
         </button>
       ))}
       {error && !cancelando && <span className="error-linea">{error}</span>}
