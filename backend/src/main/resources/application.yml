@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: agenda-medica
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:agenda_medica}
+    username: ${DB_USER:agenda}
+    password: ${DB_PASSWORD:agenda}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: ${TZ:America/Asuncion}
+  flyway:
+    enabled: true
+  web:
+    locale: es
+    locale-resolver: fixed
+  jackson:
+    default-property-inclusion: non_null
+    time-zone: ${TZ:America/Asuncion}
+
+server:
+  port: 8080
+  error:
+    include-message: always
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+app:
+  zona-horaria: ${TZ:America/Asuncion}
+  jwt:
+    # Mínimo 32 caracteres. En producción se define con JWT_SECRET.
+    secret: ${JWT_SECRET:cambiar-este-secreto-de-desarrollo-por-uno-largo}
+    expiracion-horas: ${JWT_EXPIRACION_HORAS:10}
+  admin:
+    username: ${ADMIN_USERNAME:admin}
+    password: ${ADMIN_PASSWORD:admin123}

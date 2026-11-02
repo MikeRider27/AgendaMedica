@@ -1,0 +1,67 @@
+name: agenda-medica
+
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-agenda_medica}
+      POSTGRES_USER: ${DB_USER:-agenda}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Defina DB_PASSWORD en .env}
+      TZ: ${TZ:-America/Asuncion}
+      PGTZ: ${TZ:-America/Asuncion}
+    volumes:
+      - db-datos:/var/lib/postgresql/data
+    networks: [interna]
+    # Sin "ports": la base sólo es accesible desde la red interna.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-agenda_medica}
+      DB_USER: ${DB_USER:-agenda}
+      DB_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET:?Defina JWT_SECRET en .env (mínimo 32 caracteres)}
+      JWT_EXPIRACION_HORAS: ${JWT_EXPIRACION_HORAS:-10}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Defina ADMIN_PASSWORD en .env}
+      TZ: ${TZ:-America/Asuncion}
+    networks: [interna]
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    networks: [interna, publica]
+
+# Subredes explícitas: evita depender de los pools por defecto de Docker,
+# que se agotan cuando hay muchos proyectos en el mismo host.
+networks:
+  # internal: sin salida a internet ni puertos publicados (db + backend)
+  interna:
+    internal: true
+    ipam:
+      config:
+        - subnet: ${SUBNET_INTERNA:-10.89.50.0/24}
+  publica:
+    ipam:
+      config:
+        - subnet: ${SUBNET_PUBLICA:-10.89.51.0/24}
+
+volumes:
+  db-datos:

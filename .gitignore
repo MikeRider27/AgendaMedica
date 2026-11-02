@@ -25,3 +25,14 @@ replay_pid*
 
 build/
 /dist/
+
+
+# Nuevo sistema
+.env
+backend/target/
+frontend/node_modules/
+frontend/dist/
+
+# Respaldos de base de datos (pueden contener datos personales)
+*.backup
+*.dump
